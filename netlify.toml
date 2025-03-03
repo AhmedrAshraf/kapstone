@@ -1,0 +1,28 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[context.production]
+  command = "npm run build"
+  environment = { VITE_APP_ENV = "production" }
+
+[context.staging]
+  command = "npm run build:staging"
+  environment = { VITE_APP_ENV = "staging" }
+
+# Branch deploy context: All deploys that are not from a pull/merge request
+# or from the production branch will inherit these settings.
+[context.branch-deploy]
+  command = "npm run build:staging"
+  environment = { VITE_APP_ENV = "staging" }
+
+# Deploy Preview context: All deploys generated from a pull/merge request
+# will inherit these settings.
+[context.deploy-preview]
+  command = "npm run build:staging"
+  environment = { VITE_APP_ENV = "staging" }
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

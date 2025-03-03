@@ -1,0 +1,21 @@
+# Supabase Edge Functions Configuration
+
+[functions]
+[functions.contact]
+verify_jwt = false
+[functions.send-email] 
+verify_jwt = false
+
+[auth]
+disable_signup = false
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = false
+enable_confirmations = false
+
+[storage]
+file_size_limit = "50MiB"
+
+[storage.buckets]
+attachments = { public = true }
