@@ -503,6 +503,7 @@ export function NewClinicForm() {
                       <ArrowRight className="h-5 w-5 ml-2" />
                     </button>
                   ) : (
+                    <Link to='/PaymentPlan'>
                     <button
                       type="submit"
                       className="inline-flex items-center px-4 py-2 bg-kapstone-sage text-white rounded-md hover:bg-kapstone-sage-dark"
@@ -510,6 +511,7 @@ export function NewClinicForm() {
                       Continue to Payment
                       <ArrowRight className="h-5 w-5 ml-2" />
                     </button>
+                    </Link>
                   )}
                 </div>
               </form>

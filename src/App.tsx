@@ -38,6 +38,7 @@ import { CheckoutCancel } from './pages/checkout/Cancel';
 import { Footer } from './components/Footer';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AdminOverlay } from './components/cms/AdminOverlay';
+import PaymentPlan from './pages/PaymentPlan';
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
               <Route path="/blog/new" element={<BlogEditor />} />
               <Route path="/blog/edit/:id" element={<BlogEditor />} />
               <Route path="/checkout/success" element={<CheckoutSuccess />} />
+              <Route path="/checkout" element={<PaymentPlan />} />
               <Route path="/checkout/cancel" element={<CheckoutCancel />} />
               <Route
                 path="/member-hub"
