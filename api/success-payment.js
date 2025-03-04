@@ -24,6 +24,7 @@ try {
   }
 
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+  console.log("🚀 ~ app.get ~ subscription:", subscription)
 
   const currentPeriodEndDate = subscription.current_period_end;
   const endDate = new Date(currentPeriodEndDate * 1000);

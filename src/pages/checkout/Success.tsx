@@ -9,6 +9,7 @@ export function CheckoutSuccess() {
   const [error, setError] = useState<string | null>(null);
   const [subscription, setSubscription] = useState<any>(null);
   const [paymentStatus, setPaymentStatus] = useState(false)
+  console.log("🚀 ~ CheckoutSuccess ~ paymentStatus:", paymentStatus)
   const [currentUser, setCurrentUser] = useState<any>(null);
 
     useEffect(() => {
@@ -49,7 +50,7 @@ export function CheckoutSuccess() {
     .eq('auth_id', uid)
 
       if(error){
-        alert(error)
+        console.error("error", error)
       }
     }
     
@@ -107,7 +108,7 @@ export function CheckoutSuccess() {
 
   return (
     <div className="min-h-screen pt-32 pb-12 flex flex-col bg-gray-50">
-      {paymentStatus ? (
+      {paymentStatus === 'true' ? (
         <div className="flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-lg bg-white px-6 py-8 md:px-12 md:py-16 shadow-xl">
             <div className="text-center">

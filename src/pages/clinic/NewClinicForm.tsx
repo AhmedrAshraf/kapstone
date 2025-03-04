@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
-import { ArrowLeft, ArrowRight, Building2, User, Users, Tag, MessageSquare, CheckCircle } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { ArrowLeft, ArrowRight, Building2, User, Users, Tag, MessageSquare, CheckCircle, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { CheckoutModal } from '../../components/checkout/CheckoutModal';
-
+import { supabase } from '../../lib/supabase';
+import { useNavigate } from 'react-router-dom';
 // Form step types
 type FormStep = 'basic' | 'specialties' | 'services' | 'contact';
 type MembershipType = 'clinic' | 'solo' | 'affiliate';
@@ -78,6 +79,8 @@ export function NewClinicForm() {
   const [currentStep, setCurrentStep] = useState<FormStep>('basic');
   const [membershipType, setMembershipType] = useState<MembershipType | null>(null);
   const [showCheckout, setShowCheckout] = useState(false);
+  const [userDetail, setUserDetail] =  useState(null)
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: '',
     owners: '',
@@ -122,10 +125,10 @@ export function NewClinicForm() {
     scrollToTop();
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert('Payment integration is temporarily disabled. Please check back later.');
-  };
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   alert('Payment integration is temporarily disabled. Please check back later.');
+  // };
 
   const renderStep = () => {
     switch (currentStep) {
@@ -421,6 +424,74 @@ export function NewClinicForm() {
   const steps: FormStep[] = ['basic', 'specialties', 'services', 'contact'];
   const currentStepIndex = steps.indexOf(currentStep);
 
+  useEffect(() => {
+    const verifyPayment = async () => {
+      try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        if (sessionError || !session?.user) {
+          console.error("No active session found");
+          return;
+        }
+    
+        const { data, error } = await supabase
+          .from('users')
+          .select('*')
+          .eq('auth_id', session.user.id)
+          .maybeSingle();
+    
+        if (error) throw error;
+    
+        setUserDetail(data);
+      } catch (error) {
+        console.error("Error verifying payment:", error);
+      }
+    };
+    
+  
+    verifyPayment();
+  }, []);
+  
+
+// const handlePayment = () =>{
+//   if(formData.website.trim() && formData.phone.trim()){
+//     if(userDetail?.subscription_id && userDetail?.subscription_status === 'true'){
+//       // navigate('/')
+//   }else{
+//     // navigate('/checkout') 
+//     if(userDetail.canceled_at){
+//       const currentDate = new Date();
+//       const endDate = new Date(data.canceled_at);
+//       if (currentDate < endDate) {
+//         setShowSubscriptionModal(true);
+//       }
+//     }
+//   }
+// }else{
+//   alert("please fill all the details first")
+// }
+// }
+
+const handlePayment = () => {
+    if (formData.website.trim() && formData.phone.trim()) {
+      if (userDetail?.subscription_id && userDetail?.subscription_status === 'true') {
+        navigate('/'); // User already has an active subscription
+      } else {
+        if (userDetail?.canceled_at) {
+          const currentDate = new Date();
+          const endDate = new Date(userDetail.canceled_at);
+          if (currentDate < endDate) {
+            alert("Your session period is not over yet.");
+            navigate('/'); 
+            return;
+          }
+        }
+        navigate('/checkout'); // Allow navigation to checkout if no active subscription
+      }
+    } else {
+      alert('Please fill all the details first');
+    }
+  };  
+
   return (
     <div className="min-h-screen">
       {/* Full-height background section */}
@@ -476,7 +547,7 @@ export function NewClinicForm() {
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit}>
+              <form >
                 {renderStep()}
 
                 <div className="mt-8 flex justify-between">
@@ -503,15 +574,14 @@ export function NewClinicForm() {
                       <ArrowRight className="h-5 w-5 ml-2" />
                     </button>
                   ) : (
-                    <Link to='/PaymentPlan'>
                     <button
+                    onClick={handlePayment}
                       type="submit"
                       className="inline-flex items-center px-4 py-2 bg-kapstone-sage text-white rounded-md hover:bg-kapstone-sage-dark"
                     >
                       Continue to Payment
                       <ArrowRight className="h-5 w-5 ml-2" />
                     </button>
-                    </Link>
                   )}
                 </div>
               </form>

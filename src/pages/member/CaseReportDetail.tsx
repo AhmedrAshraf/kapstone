@@ -21,7 +21,7 @@ export function CaseReportDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
-
+  
   useScrollToTop();
 
   useEffect(() => {

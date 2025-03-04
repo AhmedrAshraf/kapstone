@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown, LogIn, LogOut } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { LoginModal } from './LoginModal';
+import axios from 'axios';
+import { supabase } from '../lib/supabase';
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,10 +13,39 @@ export function Navigation() {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { user, signOut } = useAuthStore();
+  const { signOut } = useAuthStore();
   const navigate = useNavigate();
   const resourcesTimeoutRef = useRef<NodeJS.Timeout>();
   const resourcesRef = useRef<HTMLDivElement>(null);
+  const [cancelingLoading, setCancelingloading] = useState(false)
+  const [user, setUser] = useState(null)
+  const [subscriptionDetails, setSubscriptionDetails] = useState()
+
+    useEffect(() => {
+        const fetchUser = async () => {
+          const { data:{ session }, error } = await supabase.auth.getSession();
+          if (error) {
+            console.error("Error fetching user:", error);
+          } else {
+            if(session){
+              const { data:userDetail, error:userErrror } = await supabase
+              .from('users')
+              .select("*")
+              .maybeSingle()
+              .eq('auth_id',session.user.id);
+
+              if(userErrror) throw userErrror
+
+              if(userDetail){
+                setSubscriptionDetails(userDetail)
+              }
+
+              setUser(session.user)
+            }
+          }
+        };
+        fetchUser();
+      }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,11 +93,43 @@ export function Navigation() {
     setIsOpen(false);
   };
 
+  const handleCancelSubcription =  async () =>{
+    const confirmCancel = window.confirm("Are you sure you want to cancel your subscription?");
+    if (!confirmCancel) {
+      return;
+    }
+    try {
+      setCancelingloading(true); 
+      const response = await axios.post('http://localhost:8300/api/cancel-payment', {
+        uid: user.id, 
+        subscriptionId: subscriptionDetails.subscription_id
+      });
+      
+      console.log("response", response);
+      
+      const data = response.data;    
+      if (response.status !== 200) { 
+        alert(`Error: ${data.error || "An error occurred."}`);
+        return;
+      }
+      setSubscriptionDetails(prev => ({
+        ...prev,
+        subscription_status: 'canceled'
+      }));
+  
+      alert(data.message);
+
+    }catch(error){
+      console.error("error", error);
+      alert("There was an issue canceling your subscription. Please try again later.");
+    }
+  }
+
   return (
     <>
       <nav className={`fixed w-full bg-white shadow-lg transition-all duration-300 ${visible ? 'translate-y-0' : '-translate-y-full'} z-40`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`flex justify-between transition-all duration-300 ${isScrolled ? 'h-[80px]' : ''}`}>
+          <div className={`flex justify-between items-center transition-all duration-300 ${isScrolled ? 'h-[80px]' : ''}`}>
             <div className="flex">
               <Link to="/" className="flex-shrink-0 flex items-center">
                 <img
@@ -153,13 +216,16 @@ export function Navigation() {
                     >
                       Member Hub
                     </Link>
-                    <button
+                    {/* <button
                       onClick={handleLogout}
                       className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-sm font-medium inline-flex items-center"
                     >
                       <LogOut className="h-4 w-4 mr-1" />
                       Sign Out
-                    </button>
+                    </button> */}
+                    {subscriptionDetails?.subscription_status === 'true' && (
+                    <button onClick={handleCancelSubcription} className='border border-red-600 text-sm text-red-600 p-3 rounded-lg'>Cancel Subscription</button>
+                  )}
                   </>
                 ) : (
                   <button
