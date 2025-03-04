@@ -44,6 +44,6 @@ try {
 });
 
 
-// app.listen(8100, () =>{
-//     console.log(`running on 8100`);
-// })
+app.listen(8100, () =>{
+    console.log(`running on 8100`);
+})

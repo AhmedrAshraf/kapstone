@@ -50,6 +50,6 @@ try {
 });
 
 
-// app.listen(8300, () =>{
-//     console.log(`running on 8300`);
-// })
+app.listen(8300, () =>{
+    console.log(`running on 8300`);
+})
