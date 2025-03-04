@@ -16,7 +16,7 @@ interface PlanOption {
   savings?: string;
 }
 
-const PaymentPlan: React.FC = () => {
+const Checkout: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState<PlanType>('monthly');
   const [user, setUser] = useState(null)
 
@@ -175,4 +175,4 @@ const PaymentPlan: React.FC = () => {
   );
 };
 
-export default PaymentPlan;
+export default Checkout;
