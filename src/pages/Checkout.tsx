@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Check } from 'lucide-react';
-import axios from "axios"
-import { supabase } from '../lib/supabase';
+import React, { useEffect, useState } from "react";
+import { Check } from "lucide-react";
+import axios from "axios";
+import { supabase } from "../lib/supabase";
 
-type PlanType = 'weekly' | 'monthly' | 'yearly';
+type PlanType = "weekly" | "monthly" | "yearly";
 
 interface PlanOption {
   stripePriceId: any;
@@ -17,46 +17,63 @@ interface PlanOption {
 }
 
 const Checkout: React.FC = () => {
-  const [selectedPlan, setSelectedPlan] = useState<PlanType>('monthly');
-  const [user, setUser] = useState(null)
+  const [selectedPlan, setSelectedPlan] = useState<PlanType>("monthly");
+  const [user, setUser] = useState<any>(null);
 
   const plans: PlanOption[] = [
     {
-      type: 'weekly',
+      type: "weekly",
       price: 9.99,
-      stripePriceId: 'price_1QygJjAPOlDLh3vrmXTqKjxv', 
-      period: 'week',
-      features: ['Basic access', 'Up to 5 projects', 'Community support', '1GB storage'],
+      stripePriceId: "price_1QygJjAPOlDLh3vrmXTqKjxv",
+      period: "week",
+      features: [
+        "Basic access",
+        "Up to 5 projects",
+        "Community support",
+        "1GB storage",
+      ],
     },
     {
-      type: 'monthly',
+      type: "monthly",
       price: 29.99,
-      stripePriceId: 'price_1QygKbAPOlDLh3vrqKTWsnYA',
-      period: 'month',
-      features: ['Full access', 'Unlimited projects', 'Priority support', '15GB storage'],
+      stripePriceId: "price_1QygKbAPOlDLh3vrqKTWsnYA",
+      period: "month",
+      features: [
+        "Full access",
+        "Unlimited projects",
+        "Priority support",
+        "15GB storage",
+      ],
     },
     {
-      type: 'yearly',
+      type: "yearly",
       price: 249.99,
-      stripePriceId: 'price_1QygNbAPOlDLh3vrWvnmH3vv',
-      period: 'year',
-      features: ['Everything in Monthly', 'Dedicated support', 'Unlimited storage'],
-    }
+      stripePriceId: "price_1QygNbAPOlDLh3vrWvnmH3vv",
+      period: "year",
+      features: [
+        "Everything in Monthly",
+        "Dedicated support",
+        "Unlimited storage",
+      ],
+    },
   ];
-  
+
   useEffect(() => {
     const fetchUser = async () => {
-      const { data:{ session }, error } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error,
+      }: any = await supabase.auth.getSession();
       if (error) {
         console.error("Error fetching user:", error);
       } else {
-        if(session){
-        setUser(session.user)
+        if (session) {
+          setUser(session.user);
         }
       }
     };
     fetchUser();
-  }, [])
+  }, []);
 
   const handleSelectPlan = async (plan: PlanOption) => {
     setSelectedPlan(plan.type);
@@ -67,17 +84,20 @@ const Checkout: React.FC = () => {
 
     try {
       // const response = await axios.post('http://localhost:8000/api/create-checkout-session', {
-        const response = await axios.post('https://kapstone-sandy.vercel.app/api/create-checkout-session', {
-        priceId: plan.stripePriceId,
-        userId: user.id        
-      });
+      const response = await axios.post(
+        "https://kapstone-sandy.vercel.app/api/create-checkout-session",
+        {
+          priceId: plan.stripePriceId,
+          userId: user.id,
+        }
+      );
 
       if (response.data.url) {
-        localStorage.setItem('selectedPlan', plan.type); // Store selected plan
-        window.location.href = response.data.url; 
+        localStorage.setItem("selectedPlan", plan.type); // Store selected plan
+        window.location.href = response.data.url;
       }
     } catch (error) {
-      console.error('Error creating checkout session:', error);
+      console.error("Error creating checkout session:", error);
     }
   };
 
@@ -97,11 +117,13 @@ const Checkout: React.FC = () => {
           {plans.map((plan) => (
             <button
               key={plan.type}
-              onClick={() => {setSelectedPlan(plan.type)}}
+              onClick={() => {
+                setSelectedPlan(plan.type);
+              }}
               className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                 selectedPlan === plan.type
-                  ? 'bg-white text-blue-600 shadow-sm'
-                  : 'text-gray-700 hover:text-gray-900'
+                  ? "bg-white text-blue-600 shadow-sm"
+                  : "text-gray-700 hover:text-gray-900"
               }`}
             >
               {plan.type.charAt(0).toUpperCase() + plan.type.slice(1)}
@@ -116,9 +138,9 @@ const Checkout: React.FC = () => {
             key={plan.type}
             className={`rounded-lg shadow-lg overflow-hidden transition-all duration-300 transform ${
               selectedPlan === plan.type
-                ? 'ring-2 ring-blue-500 scale-105'
-                : 'hover:scale-[1.02]'
-            } ${plan.popular ? 'bg-white' : 'bg-white'}`}
+                ? "ring-2 ring-blue-500 scale-105"
+                : "hover:scale-[1.02]"
+            } ${plan.popular ? "bg-white" : "bg-white"}`}
           >
             {plan.popular && (
               <div className="bg-blue-500 text-white text-center py-1 text-sm font-medium">
@@ -130,8 +152,12 @@ const Checkout: React.FC = () => {
                 {plan.type.charAt(0).toUpperCase() + plan.type.slice(1)} Plan
               </h3>
               <div className="mt-4 flex items-baseline">
-                <span className="text-4xl font-extrabold text-gray-900">${plan.price}</span>
-                <span className="ml-1 text-xl font-semibold text-gray-500">/{plan.period}</span>
+                <span className="text-4xl font-extrabold text-gray-900">
+                  ${plan.price}
+                </span>
+                <span className="ml-1 text-xl font-semibold text-gray-500">
+                  /{plan.period}
+                </span>
               </div>
               {plan.originalPrice && (
                 <div className="mt-1 flex items-center">
@@ -160,11 +186,11 @@ const Checkout: React.FC = () => {
                   onClick={() => handleSelectPlan(plan)}
                   className={`w-full rounded-md px-4 py-2 text-sm font-medium transition-colors ${
                     selectedPlan === plan.type
-                      ? 'bg-blue-600 text-white hover:bg-blue-700'
-                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                      ? "bg-blue-600 text-white hover:bg-blue-700"
+                      : "bg-gray-100 text-gray-900 hover:bg-gray-200"
                   }`}
                 >
-                  {selectedPlan === plan.type ? 'Current Plan' : 'Select Plan'}
+                  {selectedPlan === plan.type ? "Current Plan" : "Select Plan"}
                 </button>
               </div>
             </div>

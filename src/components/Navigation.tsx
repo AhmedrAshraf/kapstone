@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, ChevronDown, LogIn, LogOut } from 'lucide-react';
-import { useAuthStore } from '../store/authStore';
-import { LoginModal } from './LoginModal';
-import axios from 'axios';
-import { supabase } from '../lib/supabase';
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, X, ChevronDown, LogIn, LogOut } from "lucide-react";
+import { useAuthStore } from "../store/authStore";
+import { LoginModal } from "./LoginModal";
+import axios from "axios";
+import { supabase } from "../lib/supabase";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,35 +17,38 @@ export function Navigation() {
   const navigate = useNavigate();
   const resourcesTimeoutRef = useRef<NodeJS.Timeout>();
   const resourcesRef = useRef<HTMLDivElement>(null);
-  const [cancelingLoading, setCancelingloading] = useState(false)
-  const [user, setUser] = useState(null)
-  const [subscriptionDetails, setSubscriptionDetails] = useState()
+  const [cancelingLoading, setCancelingloading] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [subscriptionDetails, setSubscriptionDetails] = useState();
 
-    useEffect(() => {
-        const fetchUser = async () => {
-          const { data:{ session }, error } = await supabase.auth.getSession();
-          if (error) {
-            console.error("Error fetching user:", error);
-          } else {
-            if(session){
-              const { data:userDetail, error:userErrror } = await supabase
-              .from('users')
-              .select("*")
-              .maybeSingle()
-              .eq('auth_id',session.user.id);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+      if (error) {
+        console.error("Error fetching user:", error);
+      } else {
+        if (session) {
+          const { data: userDetail, error: userErrror } = await supabase
+            .from("users")
+            .select("*")
+            .maybeSingle()
+            .eq("auth_id", session.user.id);
 
-              if(userErrror) throw userErrror
+          if (userErrror) throw userErrror;
 
-              if(userDetail){
-                setSubscriptionDetails(userDetail)
-              }
-
-              setUser(session.user)
-            }
+          if (userDetail) {
+            setSubscriptionDetails(userDetail);
           }
-        };
-        fetchUser();
-      }, [])
+
+          setUser(session.user);
+        }
+      }
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,19 +58,22 @@ export function Navigation() {
       setPrevScrollPos(currentScrollPos);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (resourcesRef.current && !resourcesRef.current.contains(event.target as Node)) {
+      if (
+        resourcesRef.current &&
+        !resourcesRef.current.contains(event.target as Node)
+      ) {
         setShowResources(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleResourcesEnter = () => {
@@ -85,7 +91,7 @@ export function Navigation() {
 
   const handleLogout = async () => {
     await signOut();
-    navigate('/');
+    navigate("/");
   };
 
   const handleLinkClick = () => {
@@ -93,48 +99,64 @@ export function Navigation() {
     setIsOpen(false);
   };
 
-  const handleCancelSubcription =  async () =>{
-    const confirmCancel = window.confirm("Are you sure you want to cancel your subscription?");
+  const handleCancelSubcription = async () => {
+    const confirmCancel = window.confirm(
+      "Are you sure you want to cancel your subscription?"
+    );
     if (!confirmCancel) {
       return;
     }
     try {
-      setCancelingloading(true); 
+      setCancelingloading(true);
       // const response = await axios.post('http://localhost:8300/api/cancel-payment', {
-        const response = await axios.post('https://kapstone-sandy.vercel.app/api/cancel-payment', {
-        uid: user.id, 
-        subscriptionId: subscriptionDetails.subscription_id
-      });
-      
+      const response = await axios.post(
+        "https://kapstone-sandy.vercel.app/api/cancel-payment",
+        {
+          uid: user.id,
+          subscriptionId: subscriptionDetails.subscription_id,
+        }
+      );
+
       console.log("response", response);
-      
-      const data = response.data;    
-      if (response.status !== 200) { 
+
+      const data = response.data;
+      if (response.status !== 200) {
         alert(`Error: ${data.error || "An error occurred."}`);
         return;
       }
-      setSubscriptionDetails(prev => ({
+      setSubscriptionDetails((prev) => ({
         ...prev,
-        subscription_status: 'canceled'
+        subscription_status: "canceled",
       }));
-  
-      alert(data.message);
 
-    }catch(error){
+      alert(data.message);
+    } catch (error) {
       console.error("error", error);
-      alert("There was an issue canceling your subscription. Please try again later.");
+      alert(
+        "There was an issue canceling your subscription. Please try again later."
+      );
     }
-  }
+  };
 
   return (
     <>
-      <nav className={`fixed w-full bg-white shadow-lg transition-all duration-300 ${visible ? 'translate-y-0' : '-translate-y-full'} z-40`}>
+      <nav
+        className={`fixed w-full bg-white shadow-lg transition-all duration-300 ${
+          visible ? "translate-y-0" : "-translate-y-full"
+        } z-40`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`flex justify-between items-center transition-all duration-300 ${isScrolled ? 'h-[80px]' : ''}`}>
+          <div
+            className={`flex justify-between items-center transition-all duration-300 ${
+              isScrolled ? "h-[80px]" : ""
+            }`}
+          >
             <div className="flex">
               <Link to="/" className="flex-shrink-0 flex items-center">
                 <img
-                  className={`transition-all duration-300 ${isScrolled ? 'h-[60px]' : 'h-[150px]'} w-auto py-[10px]`}
+                  className={`transition-all duration-300 ${
+                    isScrolled ? "h-[60px]" : "h-[150px]"
+                  } w-auto py-[10px]`}
                   src="/logo.svg"
                   alt="KAPstone Clinics"
                 />
@@ -164,22 +186,18 @@ export function Navigation() {
                 >
                   Clinic Directory
                 </Link>
-                <div 
+                <div
                   ref={resourcesRef}
                   className="relative"
                   onMouseEnter={handleResourcesEnter}
                   onMouseLeave={handleResourcesLeave}
                 >
-                  <button
-                    className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-sm font-medium inline-flex items-center"
-                  >
+                  <button className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-sm font-medium inline-flex items-center">
                     Resources
                     <ChevronDown className="ml-1 h-4 w-4" />
                   </button>
                   {showResources && (
-                    <div
-                      className="absolute z-10 left-0 mt-0 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 animate-fadeIn"
-                    >
+                    <div className="absolute z-10 left-0 mt-0 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 animate-fadeIn">
                       <div className="h-2" />
                       <div className="py-1">
                         <Link
@@ -207,7 +225,7 @@ export function Navigation() {
                 >
                   Contact
                 </Link>
-                
+
                 {user ? (
                   <>
                     <Link
@@ -224,9 +242,14 @@ export function Navigation() {
                       <LogOut className="h-4 w-4 mr-1" />
                       Sign Out
                     </button> */}
-                    {subscriptionDetails?.subscription_status === 'true' && (
-                    <button onClick={handleCancelSubcription} className='border border-red-600 text-sm text-red-600 p-3 rounded-lg'>Cancel Subscription</button>
-                  )}
+                    {subscriptionDetails?.subscription_status === "true" && (
+                      <button
+                        onClick={handleCancelSubcription}
+                        className="border border-red-600 text-sm text-red-600 p-3 rounded-lg"
+                      >
+                        Cancel Subscription
+                      </button>
+                    )}
                   </>
                 ) : (
                   <button
@@ -245,7 +268,11 @@ export function Navigation() {
                 onClick={() => setIsOpen(!isOpen)}
                 className="inline-flex items-center justify-center p-2 rounded-md text-kapstone-purple hover:text-kapstone-sage"
               >
-                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                {isOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
               </button>
             </div>
           </div>
