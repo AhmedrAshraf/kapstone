@@ -100,7 +100,8 @@ export function Navigation() {
     }
     try {
       setCancelingloading(true); 
-      const response = await axios.post('http://localhost:8300/api/cancel-payment', {
+      // const response = await axios.post('http://localhost:8300/api/cancel-payment', {
+        const response = await axios.post('https://kapstone-sandy.vercel.app/api/cancel-payment', {
         uid: user.id, 
         subscriptionId: subscriptionDetails.subscription_id
       });

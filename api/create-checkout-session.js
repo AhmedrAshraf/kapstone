@@ -18,8 +18,12 @@ try {
     line_items: [{ price: priceId, quantity: 1 }],
     metadata: { priceId},
     mode: "subscription",
-    success_url: `http://localhost:8100/api/success-payment?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `http://localhost:8200/cancel`,
+    // live links
+    success_url: `https://kapstone-sandy.vercel.app/api/success-payment?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `https://kapstone-sandy.vercel.app/cancel`,
+
+    // success_url: `http://localhost:8100/api/success-payment?session_id={CHECKOUT_SESSION_ID}`,
+    // cancel_url: `http://localhost:8200/cancel`,
     client_reference_id: userId
   });
 

@@ -66,7 +66,8 @@ const PaymentPlan: React.FC = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8000/api/create-checkout-session', {
+      // const response = await axios.post('http://localhost:8000/api/create-checkout-session', {
+        const response = await axios.post('https://kapstone-sandy.vercel.app/api/create-checkout-session', {
         priceId: plan.stripePriceId,
         userId: user.id        
       });
