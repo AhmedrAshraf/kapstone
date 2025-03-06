@@ -5,7 +5,7 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
-app.post("/api/create-ach-checkout-session", async (req, res) => {
+app.post('/api/create-ach-checkout-session', async (req, res) => {
     try {
       const { priceId, userId } = req.body;
       const session = await stripe.checkout.sessions.create({
