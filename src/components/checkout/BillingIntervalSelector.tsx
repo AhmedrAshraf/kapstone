@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, CalendarDays } from 'lucide-react';
+import { Calendar, CalendarDays, LogIn } from 'lucide-react';
 import axios from "axios"
 
 interface BillingIntervalSelectorProps {
@@ -76,7 +76,7 @@ export function BillingIntervalSelector({
       return;
     }
 
-    if(paymentMethod==="card"){
+  if(paymentMethod==="card"){
     try {
       const response = await axios.post( 'https://kapstone-sandy.vercel.app/api/create-checkout-session', {priceId: plan?.stripePriceId, userId: user?.id});
         // const response = await axios.post('http://localhost:8000/api/create-checkout-session', {priceId: plan?.stripePriceId, userId: user?.id})
@@ -89,10 +89,10 @@ export function BillingIntervalSelector({
     }
     }else if (paymentMethod === "ach") {
       try {
-      const response = await axios.post('https://kapstone-sandy.vercel.app/api/create-ach-checkout-session',{
-      priceId: plan?.stripePriceId,
-       userId: user?.id
-      });
+        console.log(plan?.stripePriceId);
+        console.log(user?.id);
+        
+      const response = await axios.post('https://kapstone-sandy.vercel.app/api/create-ach-checkout-session', {priceId: plan?.stripePriceId,userId: user?.id});
         if (response.data.url) {
           localStorage.setItem('selectedPlan', selectedInterval || '');
           window.location.href = response.data.url;
