@@ -93,11 +93,6 @@ export function BillingIntervalSelector({
       priceId: plan?.stripePriceId,
        userId: user?.id
       });
-
-        // const response = await axios.post("http://localhost:8400/api/create-ach-checkout-session", {
-        //   priceId: plan?.stripePriceId,
-        //   userId: user?.id
-        // });
         if (response.data.url) {
           localStorage.setItem('selectedPlan', selectedInterval || '');
           window.location.href = response.data.url;

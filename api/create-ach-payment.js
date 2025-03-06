@@ -6,8 +6,13 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/api/create-ach-checkout-session', async (req, res) => {
+  const { priceId, userId } = req.body;
+    console.log("🚀 ~ app.post ~ req.body:", req.body)
     try {
-      const { priceId, userId } = req.body;
+      if (!priceId || !userId) {
+        return res.status(400).json({ error: "Price ID is missing." });
+      }
+      
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",
         payment_method_types: ["us_bank_account"],
