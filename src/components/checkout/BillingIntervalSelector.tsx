@@ -103,7 +103,7 @@ export function BillingIntervalSelector({
           window.location.href = response.data.url;
         }
       } catch (error) {
-        console.error("Error creating ACH checkout session:", error);
+        console.error("Error while posting api:", error);
       }
   } else {
     console.log("Invalid payment method selected.");
