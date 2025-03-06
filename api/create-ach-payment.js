@@ -17,8 +17,8 @@ app.post("/api/create-ach-checkout-session", async (req, res) => {
             quantity: 1,
           },
         ],
-        success_url: `http://localhost:8100/api/success-payment?session_id={CHECKOUT_SESSION_ID}`,
-        // success_url: `https://kapstone-sandy.vercel.app/api/success-payment?session_id={CHECKOUT_SESSION_ID}`,
+        // success_url: `http://localhost:8100/api/success-payment?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `https://kapstone-sandy.vercel.app/api/success-payment?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `https://kapstone-sandy.vercel.app/cancel`,
         client_reference_id: userId
       });

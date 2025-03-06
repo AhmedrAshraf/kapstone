@@ -78,8 +78,8 @@ export function BillingIntervalSelector({
 
     if(paymentMethod==="card"){
     try {
-      // const response = await axios.post( 'https://kapstone-sandy.vercel.app/api/create-checkout-session', {priceId: plan?.stripePriceId, userId: user?.id});
-        const response = await axios.post('http://localhost:8000/api/create-checkout-session', {priceId: plan?.stripePriceId, userId: user?.id})
+      const response = await axios.post( 'https://kapstone-sandy.vercel.app/api/create-checkout-session', {priceId: plan?.stripePriceId, userId: user?.id});
+        // const response = await axios.post('http://localhost:8000/api/create-checkout-session', {priceId: plan?.stripePriceId, userId: user?.id})
       if (response.data.url) {
         localStorage.setItem('selectedPlan', plan?.type);
         window.location.href = response?.data?.url;
@@ -89,11 +89,15 @@ export function BillingIntervalSelector({
     }
     }else if (paymentMethod === "ach") {
       try {
-      // const response = await axios.post( 'https://kapstone-sandy.vercel.app/api/create-checkout-session', {priceId: plan?.stripePriceId, userId: user?.id});
-        const response = await axios.post("http://localhost:8400/api/create-ach-checkout-session", {
-          priceId: plan?.stripePriceId,
-          userId: user?.id
-        });
+      const response = await axios.post('https://kapstone-sandy.vercel.app/api/create-ach-checkout-session',{
+      priceId: plan?.stripePriceId,
+       userId: user?.id
+      });
+
+        // const response = await axios.post("http://localhost:8400/api/create-ach-checkout-session", {
+        //   priceId: plan?.stripePriceId,
+        //   userId: user?.id
+        // });
         if (response.data.url) {
           localStorage.setItem('selectedPlan', selectedInterval || '');
           window.location.href = response.data.url;

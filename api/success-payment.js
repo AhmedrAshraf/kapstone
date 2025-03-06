@@ -31,9 +31,9 @@ try {
 
 
   const uid = session.client_reference_id;
-  res.redirect(`http://localhost:5173/checkout/success?paid=${subscription.status}&uid=${uid}&session=${session_id}&subscription=${subscriptionId}&end_date=${endDate.toISOString()}`);
+  // res.redirect(`http://localhost:5173/checkout/success?paid=${subscription.status}&uid=${uid}&session=${session_id}&subscription=${subscriptionId}&end_date=${endDate.toISOString()}`);
 
-  // res.redirect(`https://kapstone-sandy.vercel.app/checkout/success?paid=true&uid=${uid}&session=${session_id}&subscription=${subscriptionId}&end_date=${endDate.toISOString()}`);
+  res.redirect(`https://kapstone-sandy.vercel.app/checkout/success?paid=${subscription.status}&uid=${uid}&session=${session_id}&subscription=${subscriptionId}&end_date=${endDate.toISOString()}`);
 
 } catch (error) {
   console.error("Error creating checkout session:", error);
