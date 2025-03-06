@@ -119,7 +119,7 @@ app.use(cors());
 
 app.post("/api/webhook", express.raw({ type: "application/json" }), async (request, response) => {
   const sig = request.headers["stripe-signature"];
-  const endpointSecret = "whsec_4f5c2bf8506c01ca6137e3ff3b7dae53cd14b4b07245e40071deeda74333673c";
+  const endpointSecret = "whsec_e3uo3YNDm2LDUsGGBFomN3mrqvZtzuLZ";
   let event;
 
   try {
