@@ -30,7 +30,7 @@ serve(async (req) => {
     });
 
     // Verify the session was successful
-    if (session.payment_status !== 'paid') {
+    if (session.payment_status !== 'active') {
       throw new Error('Payment not completed');
     }
 

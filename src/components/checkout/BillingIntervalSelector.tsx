@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar, CalendarDays } from 'lucide-react';
+import axios from "axios"
 
 interface BillingIntervalSelectorProps {
   selectedInterval: 'monthly' | 'annual' | null;
@@ -10,25 +11,52 @@ interface BillingIntervalSelectorProps {
 
 const PRICES = {
   clinic: {
-    monthly: { base: 100, card: 103.50 },
-    annual: { base: 1000, card: 1035 }
+    monthly: { 
+      base: 100, 
+      card: 103.50,
+      stripePriceId: 'price_1QygJjAPOlDLh3vrmXTqKjxv'
+    },
+    annual: { 
+      base: 1000, 
+      card: 1035,
+      stripePriceId: 'price_1QygKbAPOlDLh3vrqKTWsnYA' 
+    }
   },
   solo: {
-    monthly: { base: 100, card: 103.50 },
-    annual: { base: 1000, card: 1035 }
+    monthly: { 
+      base: 100, 
+      card: 103.50,
+      stripePriceId: 'price_1QygNbAPOlDLh3vrWvnmH3vv' 
+    },
+    annual: { 
+      base: 1000, 
+      card: 1035,
+      stripePriceId: 'price_1QygJjAPOlDLh3vrmXTqKjxv' 
+    }
   },
   affiliate: {
-    monthly: { base: 30, card: 31.05 },
-    annual: { base: 300, card: 310.50 }
+    monthly: { 
+      base: 30, 
+      card: 31.05,
+      stripePriceId: 'price_1QygNbAPOlDLh3vrWvnmH3vv' 
+    },
+    annual: { 
+      base: 300, 
+      card: 310.50,
+      stripePriceId: 'price_1QygJjAPOlDLh3vrmXTqKjxv' 
+    }
   }
 };
+
 
 export function BillingIntervalSelector({ 
   selectedInterval, 
   onSelect, 
   membershipType,
-  paymentMethod 
+  paymentMethod ,
+  user,
 }: BillingIntervalSelectorProps) {
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -37,11 +65,49 @@ export function BillingIntervalSelector({
   };
 
   const prices = PRICES[membershipType];
+  const plan = PRICES[membershipType][selectedInterval];
   const monthlyPrice = paymentMethod === 'card' ? prices.monthly.card : prices.monthly.base;
   const annualPrice = paymentMethod === 'card' ? prices.annual.card : prices.annual.base;
   const annualSavings = (monthlyPrice * 12 - annualPrice).toFixed(2);
 
+  const handleSelectPlan = async () => {
+    if (!user) {
+      alert('No user found! Please log in first.');
+      return;
+    }
+
+    if(paymentMethod==="card"){
+    try {
+      // const response = await axios.post( 'https://kapstone-sandy.vercel.app/api/create-checkout-session', {priceId: plan?.stripePriceId, userId: user?.id});
+        const response = await axios.post('http://localhost:8000/api/create-checkout-session', {priceId: plan?.stripePriceId, userId: user?.id})
+      if (response.data.url) {
+        localStorage.setItem('selectedPlan', plan?.type);
+        window.location.href = response?.data?.url;
+      }
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+    }
+    }else if (paymentMethod === "ach") {
+      try {
+      // const response = await axios.post( 'https://kapstone-sandy.vercel.app/api/create-checkout-session', {priceId: plan?.stripePriceId, userId: user?.id});
+        const response = await axios.post("http://localhost:8400/api/create-ach-checkout-session", {
+          priceId: plan?.stripePriceId,
+          userId: user?.id
+        });
+        if (response.data.url) {
+          localStorage.setItem('selectedPlan', selectedInterval || '');
+          window.location.href = response.data.url;
+        }
+      } catch (error) {
+        console.error("Error creating ACH checkout session:", error);
+      }
+  } else {
+    console.log("Invalid payment method selected.");
+  }
+  };
+
   return (
+    <div>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <button
         type="button"
@@ -88,6 +154,16 @@ export function BillingIntervalSelector({
           </p>
         </div>
       </button>
+      </div>
+
+      <div className="flex justify-end mt-10">
+        <button
+          onClick={handleSelectPlan}
+          className="inline-flex text-center justify-self-center items-center px-6 py-3 bg-kapstone-sage text-white rounded-md hover:bg-kapstone-sage-dark disabled:opacity-50 disabled:cursor-not-allowed"
+          >Proceed to Checkout
+        </button>
+      </div>
+
     </div>
   );
 }

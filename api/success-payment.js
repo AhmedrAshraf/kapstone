@@ -14,9 +14,9 @@ try {
   }
   const session = await stripe.checkout.sessions.retrieve(session_id);
         
-  if (session.payment_status !== "paid") {
-      return res.status(400).json({ error: "Payment not completed" });
-  }
+  // if (session.payment_status !== "active") {
+  //     return res.status(400).json({ error: "Payment not completed" });
+  // }
   const subscriptionId = session.subscription;
   
   if (!subscriptionId) {
@@ -31,9 +31,9 @@ try {
 
 
   const uid = session.client_reference_id;
-//   res.redirect(`http://localhost:5173/checkout/success?paid=true&uid=${uid}&session=${session_id}&subscription=${subscriptionId}&end_date=${endDate.toISOString()}`);
+  res.redirect(`http://localhost:5173/checkout/success?paid=${subscription.status}&uid=${uid}&session=${session_id}&subscription=${subscriptionId}&end_date=${endDate.toISOString()}`);
 
-  res.redirect(`https://kapstone-sandy.vercel.app/checkout/success?paid=true&uid=${uid}&session=${session_id}&subscription=${subscriptionId}&end_date=${endDate.toISOString()}`);
+  // res.redirect(`https://kapstone-sandy.vercel.app/checkout/success?paid=true&uid=${uid}&session=${session_id}&subscription=${subscriptionId}&end_date=${endDate.toISOString()}`);
 
 } catch (error) {
   console.error("Error creating checkout session:", error);

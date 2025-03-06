@@ -8,37 +8,35 @@ export function CheckoutSuccess() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [subscription, setSubscription] = useState<any>(null);
-  const [paymentStatus, setPaymentStatus] = useState(false)
-  console.log("🚀 ~ CheckoutSuccess ~ paymentStatus:", paymentStatus)
+  const [paymentStatus, setPaymentStatus] = useState<string | null>(null); // Use string instead of boolean
   const [currentUser, setCurrentUser] = useState<any>(null);
 
-    useEffect(() => {
-      const fetchUser = async () => {
-        const { data:{ session }, error } = await supabase.auth.getSession();
-        if (error) {
-          console.error("Error fetching user:", error);
-        } else {
-          if(session){
-            setCurrentUser(session.user)
-          }
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error("Error fetching user:", error);
+      } else {
+        if (session) {
+          setCurrentUser(session.user);
         }
-      };
-      fetchUser();
-    }, [])
+      }
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
-    const verifyPayment = async() =>{
+    const verifyPayment = async () => {
     const sessionId = searchParams.get('session');
     const uid = searchParams.get('uid');
-    console.log("🚀 ~ verifyPayment ~ uid:", uid)
-    const status = searchParams.get('paid');
+    const status = searchParams.get('paid'); // 'active', 'pending', 'failed'
     const subscriptionId = searchParams.get('subscription');
     const end_date = searchParams.get('end_date');
     
     try{
     setLoading(true)
     if(sessionId && uid === currentUser?.id && status && subscriptionId && end_date){
-      setPaymentStatus(status)
+      setPaymentStatus(status); 
       const { error } = await supabase
       .from('users')
       .update({
@@ -47,25 +45,25 @@ export function CheckoutSuccess() {
         subscription_updated_at: new Date().toISOString(),
         subscription_ended_at: end_date,
       })
-    .eq('auth_id', uid)
+    .eq('auth_id', uid);
 
-      if(error){
-        console.error("error", error)
+          if (error) {
+            console.error("error", error);
+          }
+        }
+
+        if (!sessionId) {
+          setError('No session ID found');
+          setLoading(false);
+          return;
+        }
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        setLoading(false);
       }
-    }
-    
-    if (!sessionId) {
-      setError('No session ID found');
-      setLoading(false);
-      return;
-    }
-  }catch(error){
-    console.log("error", error);
-  }finally{
-    setLoading(false)
-  }
-  }
-  verifyPayment()
+    };
+    verifyPayment();
   }, [searchParams, currentUser]);
 
   if (loading) {
@@ -108,7 +106,7 @@ export function CheckoutSuccess() {
 
   return (
     <div className="min-h-screen pt-32 pb-12 flex flex-col bg-gray-50">
-      {paymentStatus === 'true' ? (
+      {paymentStatus === 'active' ? (
         <div className="flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-lg bg-white px-6 py-8 md:px-12 md:py-16 shadow-xl">
             <div className="text-center">
@@ -131,21 +129,34 @@ export function CheckoutSuccess() {
             </div>
           </div>
         </div>
-      ):(
-        <div className="pt-32 pb-12 flex flex-col bg-gray-50">
+      ) : paymentStatus === 'pending' || paymentStatus === "incomplete" ? (
         <div className="flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-lg bg-white px-6 py-8 md:px-12 md:py-16 shadow-xl">
-            <div className="text-center">
-              <h1 className="text-3xl font-bold text-red-600 mb-4">No Payment Found</h1>
-              <p className="text-lg text-gray-600 mb-8">We couldn't find your payment details. Please check your transaction status or contact support.</p>
-              <Link to="/contact" className="inline-flex items-center text-kapstone-sage hover:text-kapstone-sage-dark">
-                Contact Support
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+          <div className="rounded-lg bg-white p-8 shadow-xl text-center">
+            <h1 className="mt-6 text-3xl font-bold text-yellow-600">Payment Pending</h1>
+            <p className="mt-4 text-lg text-gray-600">
+              Your payment is pending verification. ACH payments may take 1–2 business days to process.
+              Once verified, your membership will be activated automatically.
+            </p>
+            <Link to="/contact" className="mt-8 inline-flex items-center text-kapstone-sage hover:text-kapstone-sage-dark">
+              Contact Support <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <div className="pt-32 pb-12 flex flex-col bg-gray-50">
+          <div className="flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="rounded-lg bg-white px-6 py-8 md:px-12 md:py-16 shadow-xl">
+              <div className="text-center">
+                <h1 className="text-3xl font-bold text-red-600 mb-4">No Payment Found</h1>
+                <p className="text-lg text-gray-600 mb-8">We couldn't find your payment details. Please check your transaction status or contact support.</p>
+                <Link to="/contact" className="inline-flex items-center text-kapstone-sage hover:text-kapstone-sage-dark">
+                  Contact Support
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-      </div>      
       )}
     </div>
   );

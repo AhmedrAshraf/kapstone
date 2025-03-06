@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { PaymentMethodSelector } from './PaymentMethodSelector';
 import { BillingIntervalSelector } from './BillingIntervalSelector';
 import { createCheckoutSession, MembershipType } from '../../lib/stripe';
+import { supabase } from "../../lib/supabase";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+const stripePromise = loadStripe("pk_test_51I5T0LAPOlDLh3vr5aVKL58bqsaOY9MazuXznHd9HTWlvK68QdvgVXhsFdnBmNwkWrArzHmcWLG73QElvf4awpuv00SPm5vPto");
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -23,18 +27,34 @@ export function CheckoutModal({
   const [billingInterval, setBillingInterval] = useState<'monthly' | 'annual' | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState(null)
 
   if (!isOpen) return null;
 
-  const handleCheckout = async () => {
-    if (!paymentMethod || !billingInterval) {
-      setError('Payment integration is temporarily disabled');
-      return;
-    }
+  // const handleCheckout = async () => {
+  //   if (!paymentMethod || !billingInterval) {
+  //     setError('Payment integration is temporarily disabled');
+  //     return;
+  //   }
 
-    setError('Payment integration is temporarily disabled. Please check back later.');
-    return;
-  };
+  //   setError('Payment integration is temporarily disabled. Please check back later.');
+  //   return;
+  // };
+
+  
+useEffect(() => {
+    const fetchUser = async () => {
+      const {data: { session },error }: any = await supabase.auth.getSession();
+      if (error) {
+        console.error("Error fetching user:", error);
+      } else {
+        if (session) {
+          setUser(session.user);
+        }
+      }
+    };
+    fetchUser();
+  }, []);  
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -75,33 +95,21 @@ export function CheckoutModal({
               <h3 className="text-lg font-medium text-gray-700">
                 2. Choose Billing Interval
               </h3>
+              <Elements stripe={stripePromise}>
               <BillingIntervalSelector
+                user={user}
                 selectedInterval={billingInterval}
                 onSelect={setBillingInterval}
                 membershipType={membershipType}
                 paymentMethod={paymentMethod}
               />
+              </Elements>
             </div>
           )}
         </div>
 
         <div className="p-6 border-t border-gray-200">
           <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={handleCheckout}
-              disabled={!paymentMethod || !billingInterval || loading}
-              className="inline-flex items-center px-6 py-3 bg-kapstone-sage text-white rounded-md hover:bg-kapstone-sage-dark disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" />
-                  Processing...
-                </>
-              ) : (
-                'Proceed to Checkout'
-              )}
-            </button>
           </div>
         </div>
       </div>

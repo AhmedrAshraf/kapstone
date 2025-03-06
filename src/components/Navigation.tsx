@@ -242,7 +242,7 @@ export function Navigation() {
                       <LogOut className="h-4 w-4 mr-1" />
                       Sign Out
                     </button> */}
-                    {subscriptionDetails?.subscription_status === "true" && (
+                    {subscriptionDetails?.subscription_status === "active" && (
                       <button
                         onClick={handleCancelSubcription}
                         className="border border-red-600 text-sm text-red-600 p-3 rounded-lg"
