@@ -67,6 +67,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ user: null, isLoading: false, error: null });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to sign out';
+      console.log(message);
       set({ error: message, isLoading: false });
       throw error;
     }

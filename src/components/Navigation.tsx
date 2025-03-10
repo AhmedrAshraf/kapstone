@@ -91,6 +91,7 @@ export function Navigation() {
 
   const handleLogout = async () => {
     await signOut();
+    window.location.reload();
     navigate("/");
   };
 
@@ -235,13 +236,13 @@ export function Navigation() {
                     >
                       Member Hub
                     </Link>
-                    {/* <button
+                    <button
                       onClick={handleLogout}
-                      className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-sm font-medium inline-flex items-center"
+                      className="text-red-600 px-3 py-2 rounded-md text-sm font-medium inline-flex items-center"
                     >
                       <LogOut className="h-4 w-4 mr-1" />
                       Sign Out
-                    </button> */}
+                    </button>
                     {subscriptionDetails?.subscription_status === "active" && (
                       <button
                         onClick={handleCancelSubcription}
