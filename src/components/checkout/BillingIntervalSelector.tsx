@@ -1,6 +1,7 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import { Calendar, CalendarDays, LogIn } from 'lucide-react';
 import axios from "axios"
+import { supabase } from "../../lib/supabase";
 
 interface BillingIntervalSelectorProps {
   selectedInterval: 'monthly' | 'annual' | null;
@@ -54,8 +55,9 @@ export function BillingIntervalSelector({
   onSelect, 
   membershipType,
   paymentMethod ,
-  user,
+  // user,
 }: BillingIntervalSelectorProps) {
+  const [user, setUser] = useState(null)
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -70,12 +72,21 @@ export function BillingIntervalSelector({
   const annualPrice = paymentMethod === 'card' ? prices.annual.card : prices.annual.base;
   const annualSavings = (monthlyPrice * 12 - annualPrice).toFixed(2);
 
-  const handleSelectPlan = async () => {
-    if (!user) {
-      alert('No user found! Please log in first.');
-      return;
-    }
+  useEffect(() => {
+      const fetchUser = async () => {
+        const {data: { session },error }: any = await supabase.auth.getSession();
+        console.log("Fetched session:", session, "Error:", error);
+        if (error) {
+          console.error("Error fetching user:", error);
+        } else {
+          setUser(session?.user || null);
+        }
+      };
+      fetchUser();
+    }, []);  
 
+  const handleSelectPlan = async () => {
+    
   if(paymentMethod==="card"){
     try {
       const response = await axios.post( 'https://kapstone-sandy.vercel.app/api/create-checkout-session', {priceId: plan?.stripePriceId, userId: user?.id});

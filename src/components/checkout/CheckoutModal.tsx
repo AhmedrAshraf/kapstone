@@ -48,9 +48,7 @@ useEffect(() => {
       if (error) {
         console.error("Error fetching user:", error);
       } else {
-        if (session) {
-          setUser(session.user);
-        }
+        setUser(session?.user || null);
       }
     };
     fetchUser();
@@ -97,7 +95,6 @@ useEffect(() => {
               </h3>
               <Elements stripe={stripePromise}>
               <BillingIntervalSelector
-                user={user}
                 selectedInterval={billingInterval}
                 onSelect={setBillingInterval}
                 membershipType={membershipType}

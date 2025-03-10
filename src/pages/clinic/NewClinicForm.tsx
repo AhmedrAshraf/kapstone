@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, Building2, User, Users, Tag, MessageSquare, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { supabase } from "../../lib/supabase";
 import { CheckoutModal } from '../../components/checkout/CheckoutModal';
 
 // Form step types
@@ -79,6 +80,7 @@ export function NewClinicForm() {
   // const [membershipType, setMembershipType] = useState<MembershipType | null>(null);
   const [membershipType, setMembershipType] = useState('clinic');
   const [showCheckout, setShowCheckout] = useState(false);
+  const [user , setUser] = useState(null)
   const [formData, setFormData] = useState({
     name: '',
     owners: '',
@@ -89,7 +91,8 @@ export function NewClinicForm() {
     populations: [] as string[],
     website: '',
     email: '',
-    phone: ''
+    phone: '',
+    name: ''
   });
 
   const updateFormData = (field: string, value: any) => {
@@ -123,10 +126,74 @@ export function NewClinicForm() {
     scrollToTop();
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(()=>{
+        const fetchUser = async () => {
+          const {data: { session },error }: any = await supabase.auth.getSession();
+          if (error) {
+            console.error("Error fetching user:", error);
+          } else {
+            if (session) {
+              setUser(session.user);
+            }
+          }
+        };
+      fetchUser();
+  }, [])
+
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     setShowCheckout(true);
-    console.log("this is working");
+
+    if(user){
+      console.log('User is logged in:', user);
+    }else{
+      try {
+        const { error: signInError, data: signInData } = await supabase.auth.signInWithPassword({
+          email: formData.email,
+          password: formData.password,
+        });
+    
+        if (signInError) {
+          console.log("Sign in error: Invalid login credentials", signInError.message);
+          if (signInError.message.includes("Invalid login credentials")) {
+            // Proceed with sign up
+            const { data, error: signUpError } = await supabase.auth.signUp({
+              email: formData.email,
+              password: formData.password,
+            });
+      
+            if (signUpError) {
+              console.error("Error signing up:", signUpError);
+              alert("Error signing up");
+              return;
+            }
+      
+            console.log("New user created:", data.user);
+            const newUser = data.user;
+      
+            const { error: insertError } = await supabase.from("users").insert([
+              {
+                email: formData.email,
+                full_name: formData.name,
+                auth_id: newUser?.id,
+              },
+            ]);
+      
+            if (insertError) {
+              console.error("Error inserting new user into users table:", insertError);
+            } else {
+              console.log("New user inserted into database");
+            }
+          } else {
+            console.error("Unexpected sign in error:", signInError);
+          }
+        } else {
+          console.log("User logged in successfully:", signInData);
+        }
+      } catch (error) {
+        console.error("Error during authentication:", error);
+      }    
+    }
     // alert('Payment integration is temporarily disabled. Please check back later.');
   };
 
@@ -388,6 +455,38 @@ export function NewClinicForm() {
                 required
               />
             </div>
+            {!user ? (
+              <div>
+                <div className='mb-6'>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  Full name *
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => updateFormData('name', e.target.value)}
+                  className="w-full p-3 border rounded-md focus:ring-kapstone-sage focus:border-kapstone-sage"
+                  required
+                />
+              </div>
+
+                <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                  Contact Password *
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  value={formData.password}
+                  onChange={(e) => updateFormData('password', e.target.value)}
+                  className="w-full p-3 border rounded-md focus:ring-kapstone-sage focus:border-kapstone-sage"
+                  required
+                />
+                </div>
+              </div>
+
+            ):(null)}
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
