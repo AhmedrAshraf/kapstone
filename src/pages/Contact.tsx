@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Phone, Send, CheckCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useScrollToTop } from '../hooks/useScrollToTop';
+import { sendEmail } from '../utils/emailUtils';
 
 type ContactType = 'patient' | 'professional' | 'other';
 
@@ -34,34 +35,64 @@ export function Contact() {
     setError(null);
 
     try {
+      if(!formData.email || !formData.name || !formData.phone || !formData.message){
+        throw new Error('All fields are required');
+      }
       // Validate email format
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(formData.email)) {
         throw new Error('Please enter a valid email address');
       }
 
+      const { error } = await supabase
+          .from('contacts')
+          .insert([formData]);
+      if (error) throw error;
+
+      await sendEmail(
+        'kapstoneclinics@gmail.com',
+        "Contact Us",
+        `
+          <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+            <h2>New Contact Form Submission</h2>
+            <p><strong>Name:</strong> ${formData.name}</p>
+            <p><strong>Email:</strong> ${formData.email}</p>
+            <p><strong>Phone:</strong> ${formData.phone}</p>
+            <p><strong>Type:</strong> ${formData.type}</p>
+            <p style="border-left: 4px solid #007bff; padding-left: 10px; color: #555;">
+              ${formData.message}
+            </p>
+            <br>
+            <footer style="text-align: center; font-size: 12px; color: #aaa;">
+              <p>Best Regards,</p>
+              <p><strong>Kapstone Clinic Team</strong></p>
+            </footer>
+          </div>
+        `
+      );      
+
       // Attempt to send the message
-      const { data, error: submitError } = await supabase.functions.invoke('contact', {
-        body: formData,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      // const { data, error: submitError } = await supabase.functions.invoke('contact', {
+      //   body: formData,
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   }
+      // });
 
-      if (submitError) {
-        // Handle specific error cases
-        if (submitError.message?.includes('Rate limit exceeded')) {
-          throw new Error('Too many attempts. Please try again later.');
-        } else if (submitError.message?.includes('bounce')) {
-          throw new Error('Unable to send to this email address. Please use a different email.');
-        } else {
-          throw submitError;
-        }
-      }
+      // if (submitError) {
+      //   // Handle specific error cases
+      //   if (submitError.message?.includes('Rate limit exceeded')) {
+      //     throw new Error('Too many attempts. Please try again later.');
+      //   } else if (submitError.message?.includes('bounce')) {
+      //     throw new Error('Unable to send to this email address. Please use a different email.');
+      //   } else {
+      //     throw submitError;
+      //   }
+      // }
 
-      if (!data?.success) {
-        throw new Error('Failed to send message. Please try again.');
-      }
+      // if (!data?.success) {
+      //   throw new Error('Failed to send message. Please try again.');
+      // }
 
       // Success
       setSubmitted(true);

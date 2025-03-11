@@ -456,7 +456,6 @@ export function NewClinicForm() {
               />
             </div>
             {!user ? (
-              <div>
                 <div className='mb-6'>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                   Full name *
@@ -470,23 +469,21 @@ export function NewClinicForm() {
                   required
                 />
               </div>
-
-                <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                  Contact Password *
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  value={formData.password}
-                  onChange={(e) => updateFormData('password', e.target.value)}
-                  className="w-full p-3 border rounded-md focus:ring-kapstone-sage focus:border-kapstone-sage"
-                  required
-                />
-                </div>
-              </div>
-
             ):(null)}
+            
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                Phone Number *
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                value={formData.phone}
+                onChange={(e) => updateFormData('phone', e.target.value)}
+                className="w-full p-3 border rounded-md focus:ring-kapstone-sage focus:border-kapstone-sage"
+                required
+              />
+            </div>
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
@@ -502,19 +499,22 @@ export function NewClinicForm() {
               />
             </div>
 
-            <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                Phone Number *
+            {!user ? (
+              <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                Contact Password *
               </label>
               <input
-                type="tel"
-                id="phone"
-                value={formData.phone}
-                onChange={(e) => updateFormData('phone', e.target.value)}
+                type="password"
+                id="password"
+                value={formData.password}
+                onChange={(e) => updateFormData('password', e.target.value)}
                 className="w-full p-3 border rounded-md focus:ring-kapstone-sage focus:border-kapstone-sage"
                 required
               />
-            </div>
+              </div>
+            ): null}
+
           </div>
         );
     }

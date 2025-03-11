@@ -69,9 +69,9 @@ function App() {
               <Route
                 path="/member-hub"
                 element={
-                  <ProtectedRoute>
+                  // <ProtectedRoute>
                     <MemberHub />
-                  </ProtectedRoute>
+                  // </ProtectedRoute>
                 }
               >
                 <Route path="forum" element={<Forum />} />
