@@ -30,12 +30,21 @@ export function EditableText({
 
   const isSuperAdmin = user?.role === 'super_admin';
 
+  // Load cached content from localStorage immediately on mount
+  useEffect(() => {
+    const cachedContent = localStorage.getItem(`${pageId}-${sectionId}`);
+    if (cachedContent) {
+      setDisplayContent(cachedContent);
+    }
+  }, [pageId, sectionId]);
+
   // Update display content when database content is loaded
   useEffect(() => {
     if (initialized && !initialLoadRef.current) {
       const dbContent = content.find(c => c.section_id === sectionId)?.content;
       if (dbContent) {
         setDisplayContent(dbContent);
+        localStorage.setItem(`${pageId}-${sectionId}`, dbContent);
       }
       initialLoadRef.current = true;
     }
@@ -43,9 +52,15 @@ export function EditableText({
 
   const handleSave = async () => {
     if (!user?.id || isSaving) return;
-
+  
+    // Store previous content in case we need to revert
+    const previousContent = displayContent;
+    
+    // Immediately exit editing mode so the new content is shown
+    setIsEditing(false);
+    setIsSaving(true);
+  
     try {
-      setIsSaving(true);
       await updateContent({
         id: content.find(c => c.section_id === sectionId)?.id || crypto.randomUUID(),
         page_id: pageId,
@@ -55,11 +70,11 @@ export function EditableText({
         updated_by: user.id
       });
       setIsEditing(false);
+      localStorage.setItem(`${pageId}-${sectionId}`, displayContent);
     } catch (error) {
       console.error('Error saving content:', error);
-      // Revert to previous content on error
-      const dbContent = content.find(c => c.section_id === sectionId)?.content;
-      setDisplayContent(dbContent || defaultContent);
+      // const dbContent = content.find(c => c.section_id === sectionId)?.content;
+      setDisplayContent(previousContent);
     } finally {
       setIsSaving(false);
     }
