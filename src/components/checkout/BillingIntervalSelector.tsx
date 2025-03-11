@@ -107,7 +107,7 @@ export function BillingIntervalSelector({
     }
     }else if (paymentMethod === "ach") {
       try {
-        console.log(plan?.stripePriceId);
+        console.log("plan?.baseStripePriceId", plan?.baseStripePriceId);
         console.log(user?.id);
         
       const response = await axios.post('https://kapstone-sandy.vercel.app/api/create-ach-checkout-session', {priceId: plan?.baseStripePriceId,userId: user?.id});
