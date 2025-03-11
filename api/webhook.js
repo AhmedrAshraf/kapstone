@@ -1,6 +1,6 @@
 // require("dotenv").config();
 // const express = require("express");
-// const stripe = require('stripe')('sk_test_51I5T0LAPOlDLh3vrH9SCfa11zu6IowKl8gp039L3TP0C0Lc7ObAaJ1YUzQlIgotdmzDWz5vFH0FehElL7pQtPSYj00s4HBElDS');
+// const stripe = require('stripe')('pk_live_51QooVgJD6UP0gmmKgPV2FZpfGppfdot7t26GXRckyo4KGNdhItcoCYu4joT4uSOZL5TjSea7GJIFxbzVNyQCae5z00QuAytbQR');
 // const cors = require("cors");
 // // const { createClient } = require("@supabase/supabase-js");
 // const app = express();
@@ -109,7 +109,7 @@
 
 require("dotenv").config();
 const express = require("express");
-const stripe = require('stripe')('sk_test_51I5T0LAPOlDLh3vrH9SCfa11zu6IowKl8gp039L3TP0C0Lc7ObAaJ1YUzQlIgotdmzDWz5vFH0FehElL7pQtPSYj00s4HBElDS');
+const stripe = require('stripe')('pk_live_51QooVgJD6UP0gmmKgPV2FZpfGppfdot7t26GXRckyo4KGNdhItcoCYu4joT4uSOZL5TjSea7GJIFxbzVNyQCae5z00QuAytbQR');
 const cors = require("cors");
 const app = express();
 

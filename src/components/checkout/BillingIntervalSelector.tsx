@@ -15,36 +15,42 @@ const PRICES = {
     monthly: { 
       base: 100, 
       card: 103.50,
-      stripePriceId: 'price_1QygJjAPOlDLh3vrmXTqKjxv'
+      stripePriceId: 'price_1Qtn4iJD6UP0gmmK7pKqDC0X',
+      baseStripePriceId: 'price_1Qtn1jJD6UP0gmmKHGTwdvQ8'
     },
     annual: { 
       base: 1000, 
       card: 1035,
-      stripePriceId: 'price_1QygKbAPOlDLh3vrqKTWsnYA' 
+      stripePriceId: 'price_1Qtn4iJD6UP0gmmKlY7jmjiB',
+      baseStripePriceId: 'price_1Qtn1iJD6UP0gmmKmrXFnpdX'
     }
   },
   solo: {
     monthly: { 
       base: 100, 
       card: 103.50,
-      stripePriceId: 'price_1QygNbAPOlDLh3vrWvnmH3vv' 
+      stripePriceId: 'price_1Qtn69JD6UP0gmmKpm1SuD8E',
+      baseStripePriceId: 'price_1Qtn1wJD6UP0gmmKVK2wWItD'
     },
     annual: { 
       base: 1000, 
       card: 1035,
-      stripePriceId: 'price_1QygJjAPOlDLh3vrmXTqKjxv' 
+      stripePriceId: 'price_1Qtn69JD6UP0gmmKKu5rQ3fp',
+      baseStripePriceId: 'price_1Qtn2IJD6UP0gmmKcIABDUYi' 
     }
   },
   affiliate: {
     monthly: { 
       base: 30, 
       card: 31.05,
-      stripePriceId: 'price_1QygNbAPOlDLh3vrWvnmH3vv' 
+      stripePriceId: 'price_1Qtn75JD6UP0gmmK2Ik6q7K1',
+      baseStripePriceId: 'price_1Qtn2ZJD6UP0gmmKaRbJ5Vye' 
     },
     annual: { 
       base: 300, 
       card: 310.50,
-      stripePriceId: 'price_1QygJjAPOlDLh3vrmXTqKjxv' 
+      stripePriceId: 'price_1Qtn75JD6UP0gmmKxShmP9bo',
+      baseStripePriceId: 'price_1Qtn2oJD6UP0gmmKYSh6hZUA'
     }
   }
 };
@@ -68,6 +74,7 @@ export function BillingIntervalSelector({
 
   const prices = PRICES[membershipType];
   const plan = PRICES[membershipType][selectedInterval];
+  console.log("🚀 ~ selectedInterval:", selectedInterval)
   const monthlyPrice = paymentMethod === 'card' ? prices.monthly.card : prices.monthly.base;
   const annualPrice = paymentMethod === 'card' ? prices.annual.card : prices.annual.base;
   const annualSavings = (monthlyPrice * 12 - annualPrice).toFixed(2);
@@ -103,7 +110,7 @@ export function BillingIntervalSelector({
         console.log(plan?.stripePriceId);
         console.log(user?.id);
         
-      const response = await axios.post('https://kapstone-sandy.vercel.app/api/create-ach-checkout-session', {priceId: plan?.stripePriceId,userId: user?.id});
+      const response = await axios.post('https://kapstone-sandy.vercel.app/api/create-ach-checkout-session', {priceId: plan?.baseStripePriceId,userId: user?.id});
         if (response.data.url) {
           localStorage.setItem('selectedPlan', selectedInterval || '');
           window.location.href = response.data.url;
