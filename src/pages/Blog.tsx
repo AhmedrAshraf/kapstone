@@ -86,7 +86,7 @@ export function Blog() {
             alt="Open book with coffee"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-kapstone-purple/70 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gray-900/10" />
         </div>
         <div className="relative w-full">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -37,12 +37,7 @@ export function ForProfessionals() {
             alt="Professional team meeting"
             className="w-full h-full object-cover brightness-100"
           />
-          <div className="absolute inset-0">
-            {/* Radial gradient for text area */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[60%] bg-gradient-radial from-kapstone-purple/80 via-kapstone-purple/20 to-transparent" />
-            {/* Very subtle overall tint */}
-            <div className="absolute inset-0 bg-kapstone-dark/10" />
-          </div>
+          <div className="absolute inset-0 bg-gray-900/10" />
         </div>
         <div className="relative w-full mt-[100px] mb-[100px]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -306,14 +301,14 @@ export function ForProfessionals() {
       </section>
 
       {/* Professional Association Benefits */}
-      <section className="relative py-20">
+      <section className="relative py-20 min-h-[45vh] flex items-center">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4"
             alt="Majestic mountains"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-kapstone-purple/90 to-kapstone-purple/70 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gray-900/10" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <EditableText
@@ -321,7 +316,7 @@ export function ForProfessionals() {
             sectionId="benefits-title"
             defaultContent="Professional Association Benefits"
             tag="h2"
-            className="text-3xl font-bold text-white text-center mb-16"
+            className="text-4xl font-bold sm:text-5xl text-white text-center text-shadow-lg mb-16"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-8">
@@ -482,14 +477,14 @@ export function ForProfessionals() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-16">
+      <section className="relative py-16 min-h-[45vh] flex items-center">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1448375240586-882707db888b"
             alt="Serene forest"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-kapstone-purple/95 to-kapstone-purple/85 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gray-900/10" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <EditableText
@@ -497,14 +492,14 @@ export function ForProfessionals() {
             sectionId="cta-title"
             defaultContent="Ready to Join KAPstone Clinics?"
             tag="h2"
-            className="text-3xl font-bold text-white mb-8"
+            className="text-4xl font-bold sm:text-5xl text-white text-shadow-lg mb-8"
           />
           <EditableText
             pageId="for-professionals"
             sectionId="cta-subtitle"
             defaultContent="Take the first step towards becoming part of a community dedicated to excellence in ketamine-assisted psychotherapy."
             tag="p"
-            className="text-xl text-white mb-8 max-w-2xl mx-auto"
+            className="text-xl text-white text-shadow mb-8 max-w-2xl mx-auto"
           />
           <button
             onClick={handleStartApplication}

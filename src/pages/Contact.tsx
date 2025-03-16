@@ -146,14 +146,14 @@ export function Contact() {
             alt="Peaceful mountain lake at sunset"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-kapstone-purple/70 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gray-900/10" />
         </div>
 
         {/* Content */}
         <div className="relative pt-36 pb-12">
           {/* Title Section */}
           <div className="text-center text-white mb-12">
-            <h1 className="text-4xl font-bold sm:text-5xl">Get in Touch</h1>
+            <h1 className="text-4xl font-bold sm:text-5xl text-shadow-lg">Get in Touch</h1>
             <p className="mt-6 max-w-3xl mx-auto text-xl">
               Have a question or want to learn more? We're here to help.
             </p>
@@ -161,7 +161,7 @@ export function Contact() {
 
           {/* Form Section */}
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-8">
+            <div className="bg-white/95 backdrop-blur-sm rounded-lg shadow-xl p-8">
               {error && (
                 <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-md">
                   {error}

@@ -55,7 +55,6 @@ export function MemberHub() {
 
   // Show grid view only on the main member hub page
   const isMainHub = location.pathname === '/member-hub';
-console.log("hello");
 
   if (isMainHub) {
     return (

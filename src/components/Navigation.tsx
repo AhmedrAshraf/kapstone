@@ -141,23 +141,13 @@ export function Navigation() {
 
   return (
     <>
-      <nav
-        className={`fixed w-full bg-white shadow-lg transition-all duration-300 ${
-          visible ? "translate-y-0" : "-translate-y-full"
-        } z-40`}
-      >
+      <nav className={`fixed w-full bg-white shadow-lg transition-all duration-300 ${visible ? 'translate-y-0' : '-translate-y-full'} z-40`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div
-            className={`flex justify-between items-center transition-all duration-300 ${
-              isScrolled ? "h-[80px]" : ""
-            }`}
-          >
+          <div className={`flex justify-between transition-all duration-300 ${isScrolled ? 'h-[80px]' : ''}`}>
             <div className="flex">
               <Link to="/" className="flex-shrink-0 flex items-center">
                 <img
-                  className={`transition-all duration-300 ${
-                    isScrolled ? "h-[60px]" : "h-[150px]"
-                  } w-auto py-[10px]`}
+                  className={`transition-all duration-300 ${isScrolled ? 'h-[60px]' : 'h-[150px]'} w-auto py-[10px]`}
                   src="/logo.svg"
                   alt="KAPstone Clinics"
                 />
@@ -168,49 +158,53 @@ export function Navigation() {
               <div className="flex space-x-4">
                 <Link
                   to="/for-patients"
-                  className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1rem] font-medium"
                   onClick={handleLinkClick}
                 >
                   For Patients
                 </Link>
                 <Link
                   to="/for-professionals"
-                  className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1rem] font-medium"
                   onClick={handleLinkClick}
                 >
                   For Professionals
                 </Link>
                 <Link
                   to="/clinic-directory"
-                  className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1rem] font-medium"
                   onClick={handleLinkClick}
                 >
                   Clinic Directory
                 </Link>
-                <div
+                <div 
                   ref={resourcesRef}
                   className="relative"
                   onMouseEnter={handleResourcesEnter}
                   onMouseLeave={handleResourcesLeave}
                 >
-                  <button className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-sm font-medium inline-flex items-center">
+                  <button
+                    className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1rem] font-medium inline-flex items-center"
+                  >
                     Resources
                     <ChevronDown className="ml-1 h-4 w-4" />
                   </button>
                   {showResources && (
-                    <div className="absolute z-10 left-0 mt-0 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 animate-fadeIn">
+                    <div
+                      className="absolute z-10 left-0 mt-0 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 animate-fadeIn"
+                    >
                       <div className="h-2" />
                       <div className="py-1">
                         <Link
                           to="/team"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:text-kapstone-sage"
+                          className="block px-4 py-2 text-[1rem] text-gray-700 hover:text-kapstone-sage"
                           onClick={handleLinkClick}
                         >
                           Our Team
                         </Link>
                         <Link
                           to="/blog"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:text-kapstone-sage"
+                          className="block px-4 py-2 text-[1rem] text-gray-700 hover:text-kapstone-sage"
                           onClick={handleLinkClick}
                         >
                           Blog
@@ -221,24 +215,24 @@ export function Navigation() {
                 </div>
                 <Link
                   to="/contact"
-                  className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1rem] font-medium"
                   onClick={handleLinkClick}
                 >
                   Contact
                 </Link>
-
+                
                 {user ? (
                   <>
                     <Link
                       to="/member-hub"
-                      className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-sm font-medium"
+                      className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1rem] font-medium"
                       onClick={handleLinkClick}
                     >
                       Member Hub
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="text-red-600 px-3 py-2 rounded-md text-sm font-medium inline-flex items-center"
+                      className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1rem] font-medium inline-flex items-center"
                     >
                       <LogOut className="h-4 w-4 mr-1" />
                       Sign Out
@@ -255,7 +249,7 @@ export function Navigation() {
                 ) : (
                   <button
                     onClick={() => setShowLoginModal(true)}
-                    className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-sm font-medium inline-flex items-center"
+                    className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1rem] font-medium inline-flex items-center"
                   >
                     <LogIn className="h-4 w-4 mr-1" />
                     Member Login
@@ -269,11 +263,7 @@ export function Navigation() {
                 onClick={() => setIsOpen(!isOpen)}
                 className="inline-flex items-center justify-center p-2 rounded-md text-kapstone-purple hover:text-kapstone-sage"
               >
-                {isOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
+                {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
             </div>
           </div>
@@ -285,21 +275,21 @@ export function Navigation() {
             <div className="px-2 pt-2 pb-3 space-y-1">
               <Link
                 to="/for-patients"
-                className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-base font-medium"
+                className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1.125rem] font-medium"
                 onClick={handleLinkClick}
               >
                 For Patients
               </Link>
               <Link
                 to="/for-professionals"
-                className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-base font-medium"
+                className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1.125rem] font-medium"
                 onClick={handleLinkClick}
               >
                 For Professionals
               </Link>
               <Link
                 to="/clinic-directory"
-                className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-base font-medium"
+                className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1.125rem] font-medium"
                 onClick={handleLinkClick}
               >
                 Clinic Directory
@@ -307,7 +297,7 @@ export function Navigation() {
               <div className="space-y-1">
                 <button
                   onClick={() => setShowResources(!showResources)}
-                  className="w-full text-left text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-base font-medium"
+                  className="w-full text-left text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1.125rem] font-medium"
                 >
                   Resources
                 </button>
@@ -315,14 +305,14 @@ export function Navigation() {
                   <div className="pl-4">
                     <Link
                       to="/team"
-                      className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-base font-medium"
+                      className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1.125rem] font-medium"
                       onClick={handleLinkClick}
                     >
                       Our Team
                     </Link>
                     <Link
                       to="/blog"
-                      className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-base font-medium"
+                      className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1.125rem] font-medium"
                       onClick={handleLinkClick}
                     >
                       Blog
@@ -332,7 +322,7 @@ export function Navigation() {
               </div>
               <Link
                 to="/contact"
-                className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-base font-medium"
+                className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1.125rem] font-medium"
                 onClick={handleLinkClick}
               >
                 Contact
@@ -341,14 +331,14 @@ export function Navigation() {
                 <>
                   <Link
                     to="/member-hub"
-                    className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-base font-medium"
+                    className="block text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1.125rem] font-medium"
                     onClick={handleLinkClick}
                   >
                     Member Hub
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-base font-medium"
+                    className="w-full text-left text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1.125rem] font-medium"
                   >
                     Sign Out
                   </button>
@@ -359,7 +349,7 @@ export function Navigation() {
                     setShowLoginModal(true);
                     handleLinkClick();
                   }}
-                  className="w-full text-left text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-base font-medium"
+                  className="w-full text-left text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1.125rem] font-medium"
                 >
                   Member Login
                 </button>

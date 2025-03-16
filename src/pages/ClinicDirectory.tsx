@@ -131,12 +131,7 @@ export function ClinicDirectory() {
             alt="Healing environment"
             className="w-full h-full object-cover brightness-100"
           />
-          <div className="absolute inset-0">
-            {/* Radial gradient for text area */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[60%] bg-gradient-radial from-kapstone-purple/80 via-kapstone-purple/20 to-transparent" />
-            {/* Very subtle overall tint */}
-            <div className="absolute inset-0 bg-kapstone-dark/10" />
-          </div>
+          <div className="absolute inset-0 bg-gray-900/10" />
         </div>
         <div className="relative w-full">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

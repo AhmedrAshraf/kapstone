@@ -316,12 +316,7 @@ export function ForPatients() {
             alt="Peaceful forest in morning light"
             className="w-full h-full object-cover brightness-100"
           />
-          <div className="absolute inset-0">
-            {/* Radial gradient for text area */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[60%] bg-gradient-radial from-kapstone-purple/80 via-kapstone-purple/20 to-transparent" />
-            {/* Very subtle overall tint */}
-            <div className="absolute inset-0 bg-kapstone-dark/10" />
-          </div>
+          <div className="absolute inset-0 bg-gray-900/10" />
         </div>
         <div className="relative w-full mt-[100px] mb-[100px]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -376,14 +371,14 @@ export function ForPatients() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-16">
+      <section className="relative py-16 min-h-[45vh] flex items-center">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b"
             alt="Mountain path"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-kapstone-purple/90 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gray-900/10" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <EditableText
@@ -391,22 +386,24 @@ export function ForPatients() {
             sectionId="cta-title"
             defaultContent="Ready to Take the Next Step?"
             tag="h2"
-            className="text-3xl font-bold text-white mb-8"
+            className="text-4xl font-bold sm:text-5xl text-white text-shadow-lg mb-8"
           />
           <EditableText
             pageId="for-patients"
             sectionId="cta-subtitle"
             defaultContent="Find a KAPstone Clinic near you and begin your journey toward healing and growth."
             tag="p"
-            className="text-xl text-white mb-8 max-w-2xl mx-auto"
+            className="text-xl text-white text-shadow mb-8 max-w-2xl mx-auto"
           />
-          <Link
-            to="/clinic-directory"
-            className="inline-flex items-center rounded-md bg-kapstone-sage px-8 py-3 text-lg font-semibold text-white shadow-sm hover:bg-kapstone-sage-dark"
-          >
-            Find a Clinic
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Link>
+          <div className="inline-flex items-center">
+            <Link
+              to="/clinic-directory"
+              className="inline-flex items-center rounded-md bg-kapstone-sage px-8 py-3 text-lg font-semibold text-white shadow-sm hover:bg-kapstone-sage-dark"
+            >
+              Find a Clinic
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </div>
         </div>
       </section>
     </div>

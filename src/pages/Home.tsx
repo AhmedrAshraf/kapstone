@@ -18,12 +18,7 @@ export function Home() {
             alt="Peaceful mountain lake"
             className="w-full h-full object-cover brightness-100"
           />
-          <div className="absolute inset-0">
-            {/* Radial gradient for text area */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[60%] bg-gradient-radial from-kapstone-purple/80 via-kapstone-purple/20 to-transparent" />
-            {/* Very subtle overall tint */}
-            <div className="absolute inset-0 bg-kapstone-dark/10" />
-          </div>
+          <div className="absolute inset-0 bg-gray-900/10" />
         </div>
         <div className="relative w-full pt-[150px] pb-[150px]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,14 +28,14 @@ export function Home() {
                 sectionId="hero-title"
                 defaultContent="Expert Guidance in Ketamine-Assisted Psychotherapy"
                 tag="h1"
-                className="text-4xl font-bold sm:text-5xl md:text-6xl text-shadow-lg"
+                className="text-4xl font-bold sm:text-5xl md:text-6xl text-shadow-lg text-white drop-shadow-lg"
               />
               <EditableText
                 pageId="home"
                 sectionId="hero-subtitle"
                 defaultContent="Connecting patients with trusted clinics and advancing the field through professional collaboration."
                 tag="p"
-                className="mt-6 max-w-md mx-auto text-xl sm:text-2xl md:mt-8 md:max-w-3xl text-shadow"
+                className="mt-6 max-w-md mx-auto text-xl sm:text-2xl md:mt-8 md:max-w-3xl text-shadow text-white drop-shadow-lg"
               />
               <div className="mt-12 flex justify-center gap-x-6">
                 <Link
