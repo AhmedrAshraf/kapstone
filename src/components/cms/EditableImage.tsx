@@ -77,6 +77,8 @@ export function EditableImage({
     try {
       setIsSaving(true);
       setError(null);
+      console.log(isSaving);
+      
 
       // Convert image to base64
       const reader = new FileReader();

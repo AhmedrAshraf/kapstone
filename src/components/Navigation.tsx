@@ -23,10 +23,9 @@ export function Navigation() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession();
+      console.log("fetching user", user);
+    
+      const {data: { session },error,} = await supabase.auth.getSession();
       if (error) {
         console.error("Error fetching user:", error);
       } else {
@@ -35,7 +34,9 @@ export function Navigation() {
             .from("users")
             .select("*")
             .maybeSingle()
-            .eq("auth_id", session.user.id);
+            .eq("auth_id", session?.user.id);
+            
+            console.log("🚀 ~ fetchUser ~ userDetail:", userDetail)
 
           if (userErrror) throw userErrror;
 
@@ -91,7 +92,9 @@ export function Navigation() {
 
   const handleLogout = async () => {
     await signOut();
-    window.location.reload();
+    // window.location.reload();
+    localStorage.removeItem('kapstone-auth')
+    setUser(null);
     navigate("/");
   };
 
@@ -249,7 +252,7 @@ export function Navigation() {
                 ) : (
                   <button
                     onClick={() => setShowLoginModal(true)}
-                    className="text-kapstone-purple hover:text-kapstone-sage px-3 py-2 rounded-md text-[1rem] font-medium inline-flex items-center"
+                    className="hover:text-kapstone-purple text-red-600 px-3 py-2 rounded-md text-[1rem] font-medium inline-flex items-center"
                   >
                     <LogIn className="h-4 w-4 mr-1" />
                     Member Login

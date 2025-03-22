@@ -22,7 +22,10 @@ export const useAuthStore = create<AuthState>((set) => ({
   isLoading: true,
   error: null,
 
+  
   signIn: async (email: string, password: string) => {
+
+    console.log("login auth contex working");
     try {
       set({ isLoading: true, error: null });
       
@@ -31,9 +34,13 @@ export const useAuthStore = create<AuthState>((set) => ({
         password,
       });
 
+      console.log("waiting for signin ⌛⌛");
+      
       if (signInError) throw signInError;
       if (!authData.user) throw new Error('No user data returned from sign-in');
 
+      console.log("authData.user.id", authData.user.id);
+      
       const { data: profile, error: profileError } = await supabase
         .from('users')
         .select('*')
@@ -63,6 +70,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       set({ isLoading: true, error: null });
       const { error } = await supabase.auth.signOut();
+      console.log("waiting for logout🚫🚫🚫");
+      
       if (error) throw error;
       set({ user: null, isLoading: false, error: null });
     } catch (error) {
@@ -91,6 +100,8 @@ export const useAuthStore = create<AuthState>((set) => ({
         .eq('auth_id', session.user.id)
         .single();
 
+        console.log('session.user.id', session.user.id);
+        
       if (profileError) {
         // If profile fetch fails, sign out and clear state
         await supabase.auth.signOut();
