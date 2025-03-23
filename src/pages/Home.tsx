@@ -65,7 +65,14 @@ export function Home() {
           <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
             <div className="text-center">
               <div className="flex justify-center">
-                <Search className="h-12 w-12 text-kapstone-sage" />
+                <div className="relative">
+                  <div className="absolute -inset-1 bg-kapstone-sage/20 rounded-full blur"></div>
+                  <div className="relative bg-white p-4 rounded-full shadow-lg">
+                    <div className="bg-gradient-to-br from-kapstone-sage to-kapstone-purple p-3 rounded-full">
+                      <Search className="h-8 w-8 text-white" />
+                    </div>
+                  </div>
+                </div>
               </div>
               <EditableText
                 pageId="home"
@@ -85,7 +92,14 @@ export function Home() {
 
             <div className="text-center">
               <div className="flex justify-center">
-                <Users className="h-12 w-12 text-kapstone-sage" />
+                <div className="relative">
+                  <div className="absolute -inset-1 bg-kapstone-sage/20 rounded-full blur"></div>
+                  <div className="relative bg-white p-4 rounded-full shadow-lg">
+                    <div className="bg-gradient-to-br from-kapstone-sage to-kapstone-purple p-3 rounded-full">
+                      <Users className="h-8 w-8 text-white" />
+                    </div>
+                  </div>
+                </div>
               </div>
               <EditableText
                 pageId="home"
@@ -105,7 +119,14 @@ export function Home() {
 
             <div className="text-center">
               <div className="flex justify-center">
-                <BookOpen className="h-12 w-12 text-kapstone-sage" />
+                <div className="relative">
+                  <div className="absolute -inset-1 bg-kapstone-sage/20 rounded-full blur"></div>
+                  <div className="relative bg-white p-4 rounded-full shadow-lg">
+                    <div className="bg-gradient-to-br from-kapstone-sage to-kapstone-purple p-3 rounded-full">
+                      <BookOpen className="h-8 w-8 text-white" />
+                    </div>
+                  </div>
+                </div>
               </div>
               <EditableText
                 pageId="home"

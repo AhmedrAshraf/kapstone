@@ -11,20 +11,19 @@ const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000;
 
 export function usePageContent(pageId: string) {
-  
   const [content, setContent] = useState<PageContent[]>(() => contentCache[pageId] || []);
   const [loading, setLoading] = useState(!contentCache[pageId]);
   const [error, setError] = useState<Error | null>(null);
   const [initialized, setInitialized] = useState(!!contentCache[pageId]);
   const { user } = useAuthStore();
-  
+
   const loadContent = useCallback(async () => {
     // Return early if appropriate cache exists
     if ((user?.role === 'super_admin' && contentCache[pageId]) || 
-    (!user?.role && staticCache[pageId])) {
+        (!user?.role && staticCache[pageId])) {
       return;
     }
-    
+
     let retryCount = 0;
     let lastError: Error | null = null;
 

@@ -125,15 +125,32 @@ export function ForProfessionals() {
             <div className="bg-white rounded-lg shadow-lg p-8">
               <EditableText
                 pageId="for-professionals"
+                sectionId="two-tiered-supervision-title"
+                defaultContent="Two Tiered Supervision"
+                tag="h3"
+                className="text-2xl font-semibold text-kapstone-purple mb-6"
+              />
+              <EditableText
+                pageId="for-professionals"
+                sectionId="two-tiered-supervision-intro"
+                defaultContent="Our comprehensive supervision model provides a structured environment for professional growth and clinical excellence through two complementary formats:"
+                tag="p"
+                className="text-gray-700"
+              />
+            </div>
+
+            <div className="bg-white rounded-lg shadow-lg p-8">
+              <EditableText
+                pageId="for-professionals"
                 sectionId="supervision-model-title"
-                defaultContent="Clinic Supervision Model"
+                defaultContent="1) In-House Bi-Weekly Supervision Meetings"
                 tag="h3"
                 className="text-2xl font-semibold text-kapstone-purple mb-6"
               />
               <EditableText
                 pageId="for-professionals"
                 sectionId="supervision-model-intro"
-                defaultContent="Our comprehensive bi-weekly case presentations within each clinic provide a structured environment for professional growth and clinical excellence. These sessions offer:"
+                defaultContent="Regular case presentations within each clinic provide a structured environment for review and consultation with your multidisciplinary clinical team. These sessions offer:"
                 tag="p"
                 className="text-gray-700 mb-6"
               />
@@ -162,7 +179,7 @@ export function ForProfessionals() {
               <EditableText
                 pageId="for-professionals"
                 sectionId="kpa-membership-title"
-                defaultContent="Ketamine Psychotherapy Association Membership"
+                defaultContent="2) Bi-Weekly Meetings with Ketamine Psychotherapy Associates (KPA)"
                 tag="h3"
                 className="text-2xl font-semibold text-kapstone-purple mb-6"
               />

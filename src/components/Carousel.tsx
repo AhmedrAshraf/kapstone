@@ -15,20 +15,44 @@ export function Carousel() {
   const [slides, setSlides] = useState<CarouselSlide[]>([
     {
       title: "KAPstone Clinics",
-      content: "A professional association of ketamine clinics providing 'gold standard, ketamine assisted psychotherapy for mental health.",
+      content: "A professional association of ketamine clinics providing 'gold standard' ketamine assisted psychotherapy for mental health.",
       image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09",
       imagePosition: "right"
     },
     {
-      title: "What is KAPstone Clinics?",
-      content: "KAPstone Clinics is a 501(c)(6) professional non-profit association of clinics whose participation reflects each member clinic's commitment to the highest principles of ketamine assisted psychotherapy (KAP) for mental health treatment.",
-      image: "https://images.unsplash.com/photo-1629909615957-be38d48fbbe4",
+      title: "Excellence in Care",
+      content: "Our member clinics represent the highest standards in ketamine-assisted psychotherapy, ensuring safe and effective treatment protocols.",
+      image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef",
       imagePosition: "left"
     },
     {
-      title: "Our Mission",
-      content: "For far too long, the realm of ketamine treatment for mental health has operated in the shadows, lacking proper oversight and care for those seeking relief. KAPstone Clinics is committed to serving as a beacon of hope in this sea of uncertainty.",
-      image: "https://images.unsplash.com/photo-1629909615678-20db842f2853",
+      title: "Professional Network",
+      content: "Join a community of dedicated professionals committed to advancing the field of ketamine-assisted psychotherapy through collaboration and shared learning.",
+      image: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca",
+      imagePosition: "right"
+    },
+    {
+      title: "Comprehensive Support",
+      content: "Access extensive resources, training, and support to help your practice thrive while maintaining the highest standards of care.",
+      image: "https://images.unsplash.com/photo-1576765608866-5b51046452be",
+      imagePosition: "left"
+    },
+    {
+      title: "Patient Safety",
+      content: "Our rigorous standards and protocols ensure patient safety and optimal outcomes in ketamine-assisted psychotherapy.",
+      image: "https://images.unsplash.com/photo-1631815589968-fdb09a223b3e",
+      imagePosition: "right"
+    },
+    {
+      title: "Evidence-Based Practice",
+      content: "Stay at the forefront of ketamine therapy with access to the latest research, clinical guidelines, and best practices.",
+      image: "https://images.unsplash.com/photo-1576670759302-0c13c1c09fd3",
+      imagePosition: "left"
+    },
+    {
+      title: "Join Our Mission",
+      content: "Together, we're creating a new standard in mental health care, bringing hope and healing to those who need it most.",
+      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40",
       imagePosition: "right"
     }
   ]);

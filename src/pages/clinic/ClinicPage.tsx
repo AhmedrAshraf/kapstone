@@ -320,45 +320,15 @@ export function ClinicPage() {
 
             {/* Contact Card */}
             <div className="bg-white rounded-lg shadow-lg p-6">
-              <h3 className="text-lg font-semibold text-kapstone-purple mb-4">Contact Us</h3>
-              <form className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-kapstone-sage focus:ring-kapstone-sage"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-kapstone-sage focus:ring-kapstone-sage"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={4}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-kapstone-sage focus:ring-kapstone-sage"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-kapstone-sage text-white py-2 px-4 rounded-md hover:bg-kapstone-sage-dark transition-colors"
-                >
-                  Send Message
-                </button>
-              </form>
+              <h3 className="text-lg font-semibold text-kapstone-purple mb-4">Contact Information</h3>
+              <div className="bg-kapstone-purple/5 rounded-lg p-4">
+                <p className="text-gray-700 mb-4">
+                  To protect your privacy and ensure direct communication, please contact this clinic through their official website or contact methods listed above.
+                </p>
+                <p className="text-gray-700">
+                  KAPstone Clinics serves as a directory and verification service but does not handle appointments or communications between patients and clinics.
+                </p>
+              </div>
             </div>
           </div>
         </div>

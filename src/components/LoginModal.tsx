@@ -39,13 +39,9 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
     e.preventDefault();
     setError(null);
     setIsLoading(true);
-    console.log("login function working");
-    
 
     try {
       await signIn(email, password);
-      console.log("wainting in login modal now i call to function🤖🤖🤖");
-      
       onClose();
     } catch (err) {
       console.error('Login error:', err);
@@ -147,7 +143,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
                   />
                 </div>
               </div>
-
+              
               <button
                 type="submit"
                 disabled={isLoading}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Phone, Globe, Star, Clock, Users, CheckCircle, Video, Pencil} from 'lucide-react';
+import { MapPin, Phone, Globe, Star, Clock, Users, CheckCircle, Video } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { EnhancedClinic } from '../../types/supabase';
 
@@ -9,18 +9,16 @@ interface ClinicCardProps {
 }
 
 export function ClinicCard({ clinic, view, onEdit }: ClinicCardProps) {
-  console.log("🚀 ~ ClinicCard ~ clinic:", clinic.specialties)
-
   const editClinic = async() =>{
 
   }
 
   return (
-    <div className={`bg-white rounded-lg shadow hover:shadow-md transition-shadow p-8 ${
+    <div className={`bg-white rounded-lg shadow hover:shadow-md transition-shadow p-6 ${
       view === 'grid' ? 'h-full' : ''
     }`}>
       <div className={view === 'list' ? 'flex gap-6' : ''}>
-        <div className={view === 'list' ? 'w-1/3 relative' : 'mb-4 relative'}>
+      <div className={view === 'list' ? 'w-1/3 relative' : 'mb-4 relative'}>
         <div className='absolute -right-5 -top-5' onClick={() => onEdit(clinic)}>
         <Pencil size={17} />
         </div>
@@ -81,8 +79,7 @@ export function ClinicCard({ clinic, view, onEdit }: ClinicCardProps) {
           </div>
 
           <div className="flex flex-wrap gap-2 mb-4">
-            {clinic?.specialties?.slice(0, 3).map((specialty) => (
-              console.log("specialty", specialty),
+          {clinic?.specialties?.slice(0, 3).map((specialty) => (
               <span
                 key={specialty}
                 className="px-2 py-1 bg-kapstone-sage/10 text-kapstone-sage rounded-full text-sm"
@@ -97,7 +94,7 @@ export function ClinicCard({ clinic, view, onEdit }: ClinicCardProps) {
             )}
           </div>
 
-          {/* <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+          <div className="flex flex-wrap gap-4 text-sm text-gray-600">
             <div className="flex items-center">
               <Clock className="h-4 w-4 text-kapstone-sage mr-1" />
               Wait time: {clinic.waitTime}
@@ -118,7 +115,7 @@ export function ClinicCard({ clinic, view, onEdit }: ClinicCardProps) {
                 Virtual consults
               </div>
             )}
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
